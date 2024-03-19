@@ -47,9 +47,6 @@ type Helpers = {
 	createChunkEntry: (id: string, opt?: GetChunkOption) => OutputChunk
 	createChunk: (chunk: ChunkOpts) => OutputChunk
 	isDev: () => boolean
-	filter: {
-		isString: (value: any) => value is string
-	}
 }
 
 function createAsset(
@@ -101,7 +98,7 @@ export function defineManifest(
 	factory: (helpers: Helpers) => chrome.runtime.Manifest
 ) {
 	let config: ResolvedConfig = undefined!
-	const isDev = () => config.mode === "dev"
+	const isDev = () => config.mode.includes("dev")
 
 	function getChunk(
 		bundle: OutputBundle,
@@ -164,10 +161,7 @@ export function defineManifest(
 				getChunk: (...args) => getChunk(bundle, ...args),
 				createChunkEntry: (...args) => createChunkEntry(bundle, ...args),
 				createChunk: (...args) => createChunk(bundle, ...args),
-				isDev,
-				filter: {
-					isString: (value: any): value is string => typeof value === "string"
-				}
+				isDev
 			})
 
 			createAsset(bundle, {
