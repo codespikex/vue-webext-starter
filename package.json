@@ -39,7 +39,7 @@
 		"bracketSameLine": false,
 		"arrowParens": "avoid",
 		"parser": "typescript",
-		"singleAttributePerLine": true,
+		"singleAttributePerLine": false,
 		"overrides": [
 			{
 				"files": "*.vue",

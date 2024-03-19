@@ -23,11 +23,7 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 							>
-								<circle
-									cx="12"
-									cy="12"
-									r="11"
-								/>
+								<circle cx="12" cy="12" r="11" />
 								<path
 									d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
 									fill="none"
@@ -47,11 +43,7 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 							>
-								<circle
-									cx="12"
-									cy="12"
-									r="11"
-								/>
+								<circle cx="12" cy="12" r="11" />
 								<path
 									d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
 									fill="none"
@@ -68,11 +60,7 @@
 								stroke-linecap="round"
 								stroke-linejoin="round"
 							>
-								<circle
-									cx="12"
-									cy="12"
-									r="11"
-								/>
+								<circle cx="12" cy="12" r="11" />
 								<path
 									d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L16 9"
 									fill="none"
