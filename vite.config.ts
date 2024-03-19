@@ -74,7 +74,11 @@ export default defineConfig({
 	},
 	plugins: [vue(), manifest],
 	build: {
+		modulePreload: false,
+		chunkSizeWarningLimit: 4500,
+		assetsInlineLimit: 0,
 		outDir: "build",
+		emptyOutDir: true,
 		rollupOptions: {
 			input: [
 				"src/popup.ts",
