@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("assets/fonts/Onest.ttf");
+  font-named-instance: "Regular";
+}
+
+@layer base {
+  :root,
+  :host {
+    --font-sans: "Onest";
+  }
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 250ms;
+  transition-timing-function: ease-in-out;
+  transition-property: opacity;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

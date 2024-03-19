@@ -1,0 +1,10 @@
+build
+node_modules
+coverage
+README.md
+pnpm-lock.yaml
+assets
+public
+.npmrc
+.gitignore
+.prettierignore

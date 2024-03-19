@@ -1,0 +1,68 @@
+{
+	"name": "vue-webext-starter",
+	"displayName": "Vue Webext Starter",
+	"description": "Vue 3 Web Extension Starter",
+	"private": true,
+	"version": "0.0.1",
+	"packageManager": "pnpm@8.15.4",
+	"type": "module",
+	"scripts": {
+		"watch": "vite build --mode dev --watch",
+		"build": "vue-tsc && vite build"
+	},
+	"dependencies": {
+		"vue": "^3.4.21"
+	},
+	"devDependencies": {
+		"@types/chrome": "^0.0.263",
+		"@types/node": "^20.11.30",
+		"@vitejs/plugin-vue": "^5.0.4",
+		"autoprefixer": "^10.4.18",
+		"postcss": "^8.4.36",
+		"prettier": "^3.2.5",
+		"prettier-plugin-organize-attributes": "^1.0.0",
+		"prettier-plugin-tailwindcss": "^0.5.12",
+		"tailwindcss": "^3.4.1",
+		"typescript": "^5.4.2",
+		"vite": "^5.1.6",
+		"vue-tsc": "^2.0.6"
+	},
+	"prettier": {
+		"tabWidth": 2,
+		"useTabs": true,
+		"semi": false,
+		"singleQuote": false,
+		"quoteProps": "consistent",
+		"jsxSingleQuote": true,
+		"trailingComma": "none",
+		"bracketSpacing": true,
+		"bracketSameLine": false,
+		"arrowParens": "avoid",
+		"parser": "typescript",
+		"singleAttributePerLine": true,
+		"overrides": [
+			{
+				"files": "*.vue",
+				"options": {
+					"parser": "vue"
+				}
+			},
+			{
+				"files": "*.json",
+				"options": {
+					"parser": "json"
+				}
+			},
+			{
+				"files": "*.html",
+				"options": {
+					"parser": "html"
+				}
+			}
+		],
+		"plugins": [
+			"prettier-plugin-organize-attributes",
+			"prettier-plugin-tailwindcss"
+		]
+	}
+}
