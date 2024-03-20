@@ -16,7 +16,7 @@ const manifest = defineManifest(
 		version: pkg.version,
 		description: pkg.description,
 		action: {
-			default_icon: "./images/icon-512.png",
+			default_icon: "./assets/icon-512.png",
 			default_popup: createChunk({
 				fileName: "assets/popup.html",
 				name: "popup-html",
@@ -27,9 +27,9 @@ const manifest = defineManifest(
 			}).fileName
 		},
 		icons: {
-			16: "./images/icon-512.png",
-			48: "./images/icon-512.png",
-			128: "./images/icon-512.png"
+			16: "./assets/icon-512.png",
+			48: "./assets/icon-512.png",
+			128: "./assets/icon-512.png"
 		},
 		background: {
 			service_worker: getChunk("service-worker").fileName,
@@ -52,10 +52,9 @@ const manifest = defineManifest(
 			{
 				matches: ["*://*/*"],
 				resources: [
+					getChunk("global.css").fileName,
 					getChunk("content-script", { isEntry: true }).fileName,
 					"assets/chunks/*.js",
-					getChunk("global.css").fileName,
-					"images/*",
 					"assets/*.png",
 					"assets/*.ttf"
 				]
@@ -73,12 +72,15 @@ export default defineConfig({
 		}
 	},
 	plugins: [vue(), manifest],
+	assetsInclude: ["**/*.ttf"],
 	build: {
+		manifest: false,
 		modulePreload: false,
 		chunkSizeWarningLimit: 4500,
 		assetsInlineLimit: 0,
 		outDir: "build",
 		emptyOutDir: true,
+
 		rollupOptions: {
 			input: [
 				"src/popup.ts",
