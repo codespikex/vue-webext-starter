@@ -8,7 +8,8 @@
 	"type": "module",
 	"scripts": {
 		"watch": "vite build --mode dev --watch",
-		"build": "vue-tsc && vite build"
+		"build": "vue-tsc && vite build",
+		"preview": "vite"
 	},
 	"dependencies": {
 		"vue": "^3.4.21"

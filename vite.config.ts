@@ -71,23 +71,20 @@ export default defineConfig({
 			"assets": r(__dirname, "assets")
 		}
 	},
-	plugins: [vue(), manifest],
-	assetsInclude: ["**/*.ttf"],
-	build: {
-		manifest: false,
-		modulePreload: false,
-		chunkSizeWarningLimit: 4500,
-		assetsInlineLimit: 0,
-		outDir: "build",
-		emptyOutDir: true,
-
-		rollupOptions: {
-			input: [
+	plugins: [
+		vue(),
+		manifest({
+			inputs: [
 				"src/popup.ts",
 				"src/content-script.ts",
 				"src/service-worker.ts",
 				"assets/css/global.css"
-			],
+			]
+		})
+	],
+	build: {
+		outDir: "build",
+		rollupOptions: {
 			output: {
 				entryFileNames: "assets/[name].js",
 				chunkFileNames: "assets/chunks/[hash].js",
