@@ -1,4 +1,4 @@
-import { useWidget, waitForAssets } from "./components/widgets"
+import { useWidget, waitForAssets } from "./widgets"
 
 const WelcomeWidget = useWidget("vue-welcome", { greeting: "Vue" })
 
