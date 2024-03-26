@@ -14,7 +14,7 @@ export function useCustomElementMocks(app: App) {
 			return unref(visible)
 		},
 		setVisible(value: boolean) {
-			visible.value = true
+			visible.value = value
 		},
 		get element() {
 			return app._instance?.vnode.el
