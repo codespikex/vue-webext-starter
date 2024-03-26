@@ -2,7 +2,8 @@ import type {
 	Component,
 	DefineComponent,
 	ComponentPublicInstance,
-	App
+	App,
+	ObjectDirective
 } from "vue"
 import { reactive, isProxy, createApp, shallowRef, unref } from "vue"
 import type { CustomElements } from "virtual:custom-elements"
@@ -58,6 +59,7 @@ export type Exposed<Props = object> = Readonly<{
 	setVisible(value: boolean): void
 	unmount(forceUnmount?: boolean): void
 	beforeUnmount(hook: UnmountHook): () => boolean
+	directive: ObjectDirective<CustomElement>
 }>
 
 export type DefineCustomElementInstance<Props = object> = Readonly<
@@ -113,9 +115,9 @@ export function defineCustomElement<Def extends Component>(
 			listenerController.signal
 		)
 
-		const bm = new Map<UnmountHookFn, UnmountHookOptions>()
+		const bum = new Map<UnmountHookFn, UnmountHookOptions>()
 
-		const exposed = Object.freeze({
+		const exposed: Exposed<Props> = Object.freeze({
 			app,
 			update,
 			get props() {
@@ -143,7 +145,8 @@ export function defineCustomElement<Def extends Component>(
 				visible.value = value
 			},
 			beforeUnmount,
-			unmount
+			unmount,
+			directive: defineDirective(() => exposed)
 		})
 
 		app.provide(ExposeContext, exposed)
@@ -166,9 +169,9 @@ export function defineCustomElement<Def extends Component>(
 					: hook
 			const fn = typeof hook === "function" ? hook : hook.handler
 
-			bm.set(fn, options)
+			bum.set(fn, options)
 
-			return () => bm.delete(fn)
+			return () => bum.delete(fn)
 		}
 
 		function unmount(forceUnmount: boolean = false) {
@@ -176,11 +179,11 @@ export function defineCustomElement<Def extends Component>(
 			_unmounted = true
 
 			if (forceUnmount) {
-				Array.from(bm.values())
+				Array.from(bum.values())
 					.filter(hook => hook.type !== "transition")
 					.forEach(hook => hook.handler())
 
-				bm.clear()
+				bum.clear()
 				listenerController.abort("app:unmounted")
 
 				app.unmount()
@@ -192,7 +195,7 @@ export function defineCustomElement<Def extends Component>(
 
 		async function unmountAsync() {
 			const controller = new AbortController()
-			const hooks = Array.from(bm.values()).sort(
+			const hooks = Array.from(bum.values()).sort(
 				(a, b) => a.priority - b.priority
 			)
 
@@ -211,7 +214,7 @@ export function defineCustomElement<Def extends Component>(
 					await Promise.allSettled(transitionHooks.map(hook => hook.handler()))
 				}
 
-				bm.clear()
+				bum.clear()
 				listenerController.abort("app:unmounted")
 
 				app.unmount()
@@ -245,4 +248,49 @@ function addEventListenerAll(
 			})
 		}
 	}
+}
+
+function defineDirective(exposed: () => Exposed) {
+	return {
+		beforeMount(el) {
+			el._ce_od = el.style.display === "none" ? "" : el.style.display
+		},
+		mounted(el, _, { transition }) {
+			el._ce_bm = exposed().beforeUnmount({
+				type: "transition",
+				priority: 0,
+				handler: () => {
+					if (
+						!transition ||
+						el.style.display === "none" ||
+						el.style.visibility === "hidden"
+					) {
+						return setDisplay(el, false)
+					}
+
+					return new Promise(resolve => {
+						transition.leave(el, () => {
+							setDisplay(el, false)
+							resolve()
+						})
+					}) as Promise<void>
+				}
+			})
+		},
+		beforeUnmount(el, { value }) {
+			setDisplay(el, value)
+			el._ce_bm?.()
+		}
+	} as ObjectDirective<CustomElement>
+}
+
+type CustomElement = HTMLElement & {
+	_ce_sh?: boolean
+	_ce_od?: string
+	_ce_bm?: Function
+}
+
+function setDisplay(el: CustomElement, value: unknown): void {
+	el.style.display = value ? el._ce_od! : "none"
+	el._ce_sh = !value
 }

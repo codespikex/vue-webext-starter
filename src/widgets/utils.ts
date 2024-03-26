@@ -10,7 +10,6 @@ import {
 } from "@/utils/custom-element"
 
 import type { CustomElements } from "virtual:custom-elements"
-import { defineDirective } from "@/directive/visible"
 import { withMiddleware } from "./middleware/utils"
 
 const widgets = new Map<keyof CustomElements, DefineCustomElement>()
@@ -87,7 +86,6 @@ export function setup<Def extends Component>(def: Def, setup?: SetupFn<Def>) {
 		attachCss(ctx.shadowRoot)
 		attachFontCss(ctx.el)
 
-		app.directive("visible", defineDirective(ctx.exposed))
 		//TODO: Install global plugins or register components
 
 		setup?.(app, ctx)

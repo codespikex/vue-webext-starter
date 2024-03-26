@@ -4,7 +4,7 @@ import {
 	type UnmountHook
 } from "@/utils/custom-element"
 import type { CustomElements } from "virtual:custom-elements"
-import { inject } from "vue"
+import { type ObjectDirective, inject } from "vue"
 
 export function useCustomElement<
 	const TagName extends keyof CustomElements = "__default"
@@ -14,4 +14,12 @@ export function useCustomElement<
 
 export function onBeforeCustomElementUnmount(hook: UnmountHook) {
 	useCustomElement().beforeUnmount(hook)
+}
+
+export function useCustomElementDirective(): ObjectDirective {
+	const ce = inject<{ directive: ObjectDirective }>(ExposeContext, {
+		directive: {}
+	})
+
+	return ce?.directive ?? {}
 }

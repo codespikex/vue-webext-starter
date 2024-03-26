@@ -38,10 +38,7 @@
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.tsx",
-		"src/**/*.vue",
-		"preview/**/*.ts",
-		"preview/**/*.tsx",
-		"preview/**/*.vue"
+		"src/**/*.vue"
 	],
 	"exclude": [
 		"build",

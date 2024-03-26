@@ -27,7 +27,8 @@ export function useCustomElementMocks(app: App) {
 		update: () => {},
 		unmount() {
 			visible.value = false
-		}
+		},
+		directive: {}
 	})
 
 	app.provide("$CE_EXPOSE", exposed)

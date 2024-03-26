@@ -25,12 +25,18 @@ defineOptions({
 
 defineProps<Props>()
 
-const { visible, unmount } = useCustomElement<"vue-welcome">()
+const ce = useCustomElement<"vue-welcome">()
+
+const { directive: vCustomElement, unmount } = ce
 </script>
 
 <template>
 	<transition name="fade" appear>
-		<div class="fixed bottom-4 left-4 z-50" v-visible="visible">
+		<div
+			class="fixed bottom-4 left-4 z-50"
+			v-show="ce.visible"
+			v-custom-element
+		>
 			<div
 				class="relative bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10"
 			>
