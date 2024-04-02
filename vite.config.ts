@@ -20,12 +20,20 @@ const manifest = defineManifest(
 			default_popup: createChunk({
 				fileName: "assets/popup.html",
 				name: "popup-html",
-				code: popupHTML(
+				code: htmlTemplate(
 					getChunk("global.css").fileName,
 					getChunk("popup").fileName
 				)
 			}).fileName
 		},
+		options_page: createChunk({
+			fileName: "assets/option-ui.html",
+			name: "option-ui-html",
+			code: htmlTemplate(
+				getChunk("global.css").fileName,
+				getChunk("option-ui").fileName
+			)
+		}).fileName,
 		icons: {
 			16: "./assets/icon-512.png",
 			48: "./assets/icon-512.png",
@@ -78,6 +86,7 @@ export default defineConfig({
 				"src/popup.ts",
 				"src/content-script.ts",
 				"src/service-worker.ts",
+				"src/option-ui.ts",
 				"assets/css/global.css"
 			]
 		})
@@ -94,9 +103,10 @@ export default defineConfig({
 	}
 })
 
-function popupHTML(css: string, js: string) {
+function htmlTemplate(css: string, js: string) {
 	return `<html>
 <head>
+	<title>${pkg.displayName}</title>
 	<link rel="stylesheet" href="/${css}">
 </head>
 <body>
